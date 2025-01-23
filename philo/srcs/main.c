@@ -10,6 +10,11 @@ int main(int argc, char **argv)
         parse_input(&table, argv);
         data_init(&table);
         dinner_start(&table);
+        printf("\n[DEBUG] Philosopher meals:\n");
+        for (int i = 0; i < table.philo_nbr; i++)
+        {
+            printf("Philosopher %d: %ld meals\n", table.philos[i].id, table.philos[i].meals_count);
+        }
         free_resources(&table);
     }
     else

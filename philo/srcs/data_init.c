@@ -5,15 +5,15 @@ static void fork_assign(t_philo *philo, t_fork *forks, int philo_pos)
     int philo_nbr;
 
     philo_nbr = philo->table->philo_nbr;
-    if (philo->id % 2 == 0) // philosophes pairs
+    if (philo->id % 2 == 0)
     {
-        philo->right_fork = &forks[philo_pos];
-        philo->left_fork = &forks[(philo_pos + 1) % philo_nbr];
+        philo->first_fork = &forks[philo_pos];
+        philo->second_fork = &forks[(philo_pos + 1) % philo_nbr];
     }
-    else // philosophes impairs
+    else
     {
-        philo->left_fork = &forks[philo_pos];
-        philo->right_fork = &forks[(philo_pos + 1) % philo_nbr];
+        philo->second_fork = &forks[philo_pos];
+        philo->first_fork = &forks[(philo_pos + 1) % philo_nbr];
     }
 }
 
@@ -29,7 +29,9 @@ static void philo_init(t_table *table)
         philo->id = i + 1;
         philo->meals_count = 0;
         philo->table = table;
-        //philo->last_meal_time = table->start_simulation;
+        // table->start_simulation = get_current_timestamp();
+        mutex_handle(&philo->philo_mutex, INIT); // add
+        philo->last_meal_time = table->start_simulation;
         fork_assign(philo, table->forks, i);
         i++;
     }
@@ -41,8 +43,11 @@ void    data_init(t_table *table)
 
     i = 0;
     table->end_simulation = false;
+    table->all_threads_ready = false;
+    table->threads_running_nbr = 0;
     table->philos = mallocation(sizeof(t_philo) * table->philo_nbr);
-    mutex_handle(table->table_mutex, INIT);
+    mutex_handle(&table->table_mutex, INIT);
+    mutex_handle(&table->write_mutex, INIT); // add
     table->forks = mallocation(sizeof(t_fork) * table->philo_nbr);
     while(i < table->philo_nbr)
     {

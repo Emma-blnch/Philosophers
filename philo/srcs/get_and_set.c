@@ -2,9 +2,9 @@
 
 void    set_bool(t_mtx *mutex, bool *dest, bool value)
 {
-    mutex_handle(mutex, LOCK);  // Verrouille le mutex
-    *dest = value;             // Modifie la valeur
-    mutex_handle(mutex, UNLOCK); // Déverrouille le mutex
+    mutex_handle(mutex, LOCK);
+    *dest = value;
+    mutex_handle(mutex, UNLOCK);
 }
 
 bool    get_bool(t_mtx *mutex, bool *value)

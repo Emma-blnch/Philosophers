@@ -30,29 +30,27 @@ void wait_for_threads_and_clean(t_table *table, pthread_t supervisor)
     free_resources(table);
 }
 
-long	ft_atol(const char *string)
-{
-	long	result;
-	size_t	index;
+// long	get_current_timestamp(void)
+// {
+//     struct timeval tv;
 
-	index = 0;
-	result = 0;
-	while (string[index] == ' ' || (string[index] >= 9 && string[index] <= 13))
-		index++;
-	if (string[index] == '+')
-		index++;
-    else if (string[index] == '-')
-        error_exit("Only positive values allowed");
-	while (string[index] >= '0' && string[index] <= '9')
-	{
-		if (result > (LONG_MAX - (string[index] - '0')) / 10)
-            error_exit("Number too large");
-		result = result * 10 + (string[index] - '0');
-		index++;
-	}
-	while (string[index] == ' ' || (string[index] >= 9 && string[index] <= 13))
-		index++;
-    if (string[index] != '\0')
-        error_exit("Invalid characters in input");
-	return (result);
+//     gettimeofday(&tv, NULL);
+//     return (tv.tv_sec * 1000L) + (tv.tv_usec / 1000L);
+// }
+
+long    get_time(t_time_code timecode)
+{
+    struct timeval tv;
+
+    if (gettimeofday(&tv, NULL))
+        error_exit("gettimeofday failed");
+    if (timecode == SECOND)
+        return (tv.tv_sec + (tv.tv_usec / 1e6));
+    else if (timecode == MILLISECOND)
+        return ((tv.tv_sec * 1e3) + (tv.tv_usec / 1e3));
+    else if (timecode == MICROSECOND)
+        return ((tv.tv_sec * 1e6) + tv.tv_usec);
+    else
+        error_exit("Wrong input to get_time");
+    return (1337);
 }
