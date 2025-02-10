@@ -3,44 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eblancha <eblancha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ema_blnch <ema_blnch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 10:14:00 by eblancha          #+#    #+#             */
-/*   Updated: 2025/02/10 15:25:14 by eblancha         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:54:54 by ema_blnch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-// void	error_exit(const char *error)
-// {
-// 	printf(R"%s\n"RESET, error);
-// 	exit(EXIT_FAILURE);
-// }
+long	get_current_timestamp(void)
+{
+	struct timeval	tv;
 
-// void	*mallocation(size_t bytes)
-// {
-// 	void	*result;
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
 
-// 	result = malloc(bytes);
-// 	if (result == NULL)
-// 		error_exit("Malloc failed");
-// 	return (result);
-// }
+void	ft_usleep(int ms)
+{
+	long int	time;
 
-// void	wait_for_threads_and_clean(t_table *table, pthread_t supervisor)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < table->philo_nbr)
-// 	{
-// 		thread_handle(&table->philos[i].thread_id, NULL, NULL, JOIN);
-// 		i++;
-// 	}
-// 	thread_handle(&supervisor, NULL, NULL, JOIN);
-// 	free_resources(table);
-// }
+	time = get_current_timestamp();
+	while (get_current_timestamp() - time < ms)
+		usleep(ms / 10);
+}
 
 // long	get_time(t_time_code timecode)
 // {
@@ -58,33 +45,32 @@
 // 		error_exit("Wrong input to get_time");
 // 	return (1337);
 // }
+// // More precise usleep than the original
+// void	precise_usleep(long usec)
+// {
+// 	long	start;
+// 	long	elapsed;
 
-long long	timestamp(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
-void	ft_usleep(int ms)
-{
-	long int	time;
-
-	time = timestamp();
-	while (timestamp() - time < ms)
-		usleep(ms / 10);
-}
+// 	start = get_time(MICROSECOND);
+// 	while (1)
+// 	{
+// 		elapsed = get_time(MICROSECOND) - start;
+// 		if (elapsed >= usec)
+// 			break ;
+// 		if (usec - elapsed > 1000)
+// 			usleep((usec - elapsed) / 2);
+// 	}
+// }
 
 void	print(t_philo *philo, char *str)
 {
 	long int	time;
 
 	pthread_mutex_lock(&(philo->info->print));
-	time = timestamp() - philo->info->t_start;
+	time = get_current_timestamp() - philo->info->t_start;
 	if (!philo->info->stop && time >= 0 \
 			&& time <= INT_MAX && !is_dead(philo, 0))
-		printf("%lld %d %s", timestamp() - philo->info->t_start, philo->n, str);
+		printf("%ld %d %s", get_current_timestamp() - philo->info->t_start, philo->n, str);
 	pthread_mutex_unlock(&(philo->info->print));
 }
 

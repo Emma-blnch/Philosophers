@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eblancha <eblancha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ema_blnch <ema_blnch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 10:16:17 by eblancha          #+#    #+#             */
-/*   Updated: 2025/02/10 15:26:26 by eblancha         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:13:22 by ema_blnch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	main(int argc, char **argv)
 	memset(&data, 0, sizeof(t_info));
 	if (argc == 5 || argc == 6)
 	{
-		var_init(&data, argv);
+		parse_input(&data, argv);
+		var_init(&data);
 		philo_init(&data);
 		free_resources(&data);
 	}
@@ -28,3 +29,7 @@ int	main(int argc, char **argv)
 			"<time_to_sleep> [number_of_times_each_philosopher_must_eat]");
 	return (0);
 }
+
+// check leaks
+// check que si un philo meurt la simu s'arrte immédiatement
+// check fermetures des threads et mutex a la fin
