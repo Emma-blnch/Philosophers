@@ -6,7 +6,7 @@
 /*   By: eblancha <eblancha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 10:16:17 by eblancha          #+#    #+#             */
-/*   Updated: 2025/02/10 09:27:39 by eblancha         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:26:26 by eblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,17 @@
 
 int	main(int argc, char **argv)
 {
-	t_table	table;
+	t_info	data;
 
-	memset(&table, 0, sizeof(t_table));
+	memset(&data, 0, sizeof(t_info));
 	if (argc == 5 || argc == 6)
 	{
-		parse_input(&table, argv);// OK
-		data_init(&table);// to check if not too much mutex
-		dinner_start(&table);
-		free_resources(&table);// OK
+		var_init(&data, argv);
+		philo_init(&data);
+		free_resources(&data);
 	}
 	else
 		error_exit("Usage: ./philo <philo_nbr> <time_to_die> <time_to_eat> "
 			"<time_to_sleep> [number_of_times_each_philosopher_must_eat]");
 	return (0);
 }
-
-//printf("\n[DEBUG] Philosopher meals:\n");
-//for (int i = 0; i < table.philo_nbr; i++)
-//{
-//	printf("Philosopher %d: %ld meals\n",
-//		table.philos[i].id, table.philos[i].meals_count);
-//}
