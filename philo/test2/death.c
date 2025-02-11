@@ -33,7 +33,7 @@ int	check_philo_death(t_phil *phil, long cur_time)
 		pthread_mutex_lock(&(phil->params->m_is_dead));
 		phil->params->is_dead = 1;
 		pthread_mutex_unlock(&(phil->params->m_is_dead));
-		printf("%09ld %d died\n", cur_time, phil->pos);
+		printf(R"%09ld %d died\n"RESET, cur_time, phil->pos);
 		pthread_mutex_unlock(&(phil->params->console_mutex));
 		dead = 1;
 	}
@@ -63,4 +63,3 @@ void	*check_philos_death(void *arg)
 	}
 	return (NULL);
 }
-

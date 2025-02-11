@@ -25,4 +25,4 @@ int	main(int argc, char **argv)
 		return (free_all(philos, forks, EXIT_FAILURE));
 	return (free_all(philos, forks, return_code));
 }
-
+// regler les temps et c ok

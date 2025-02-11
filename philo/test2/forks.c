@@ -20,7 +20,7 @@ void	take_fork(char fork_name, t_phil *phil)
 			*taken = 1;
 			fork->used = 1;
 			pthread_mutex_unlock(&(fork->lock));
-			write_state("has taken a fork", phil);
+			write_state(B"has taken a fork"RESET, phil);
 		}
 		else
 			pthread_mutex_unlock(&(fork->lock));
@@ -49,7 +49,7 @@ void	release_forks_and_sleep(t_phil *phil)
 {
 	release_fork('r', phil);
 	release_fork('l', phil);
-	write_state("is sleeping", phil);
+	write_state(Y"is sleeping"RESET, phil);
 	ft_usleep(phil->params->time_to_sleep);
 }
 

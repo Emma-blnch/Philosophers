@@ -52,7 +52,7 @@ void	*philo_life(void *arg)
 			take_fork('r', phil);
 		if (phil->r_taken && phil->l_taken)
 		{
-			write_state("is eating", phil);
+			write_state(G"is eating"RESET, phil);
 			ft_usleep(phil->params->time_to_eat);
 			phil->meal_count++;
 			pthread_mutex_lock(&(phil->m_last_meal));
@@ -63,4 +63,3 @@ void	*philo_life(void *arg)
 	}
 	return (NULL);
 }
-

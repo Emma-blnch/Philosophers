@@ -42,10 +42,10 @@ int	create_philos(t_phil **philos, t_fork **forks, t_params	*params)
 
 int	init_params(t_params *params, int argc, char **argv)
 {
-	if (argc < 5)
+	if (argc < 5 || argc > 6)
 	{
-		printf("Usage : ./philo number_philos time_die ");
-		printf("time_eat time_sleep [number_eat]\n");
+		printf(R"Usage: ./philo <philo_nbr> <time_to_die> <time_to_eat> "
+			"<time_to_sleep> [number_of_times_each_philosopher_must_eat]"RESET);
 		return (0);
 	}
 	params->num = ft_atoi(argv[1]);
@@ -53,16 +53,16 @@ int	init_params(t_params *params, int argc, char **argv)
 	params->time_to_eat = ft_atoi(argv[3]);
 	params->time_to_sleep = ft_atoi(argv[4]);
 	params->meal_max = -1;
-	if (argc > 5)
+	if (argc == 6)
 	{
 		params->meal_max = ft_atoi(argv[5]);
 		if (ft_atoi(argv[5]) < 0)
 			return (0);
 	}
 	params->is_dead = 0;
-	if (params->num <= 0 || params->time_to_die < 0 || params->time_to_eat < 0
-		|| params->time_to_sleep < 0)
-		return (0);
+	if (params->num <= 0 || params->num > 200 || params->time_to_die < 60 || params->time_to_eat < 60
+		|| params->time_to_sleep < 60)
+		return (printf(R"Minimum 60 seconds for each time and 200 philosophers max"RESET), 0);
 	pthread_mutex_init(&(params->console_mutex), NULL);
 	pthread_mutex_init(&(params->m_is_dead), NULL);
 	return (1);

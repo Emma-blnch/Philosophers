@@ -1,11 +1,26 @@
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-# include <pthread.h>
-# include <time.h>
-# include <sys/time.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include "libft/libft.h"
+
+# include <stdio.h> // printf
+# include <unistd.h> // usleep
+# include <stdlib.h> // malloc, free
+# include <sys/time.h> // gettimeofday
+# include <pthread.h> // threads, mutex
+# include <stdbool.h> // bool
+# include <limits.h> // long max et long min
+# include <string.h> // memset
+# include <errno.h> 
+
+# define RESET   "\033[0m" /* reset to default */
+# define BLACK   "\033[1;30m" 
+# define R       "\033[1;31m" /* bold red */
+# define G       "\033[1;32m" /* bold green */
+# define Y       "\033[1;33m" /* bold yellow */
+# define B       "\033[1;34m" /* bold blue */
+# define M       "\033[1;35m" /* bold magenta */
+# define C       "\033[1;36m" /* bold cyan */
+# define W       "\033[1;37m" /* bold white */
+
 typedef struct s_params
 {
 	int				num;
@@ -44,18 +59,23 @@ typedef struct s_phil
 int		is_dead(t_phil *phil);
 void	*check_philos_death(void *arg);
 int		stop_threads(t_phil *phil);
+
 // forks.c
 void	take_fork(char fork_name, t_phil *phil);
 void	release_fork(char fork_name, t_phil *phil);
 void	release_forks_and_sleep(t_phil *phil);
+
 // init.c
 int		create_philos(t_phil **philos, t_fork **forks, t_params	*params);
 int		init_params(t_params *params, int argc, char **argv);
+
 // main.c
 void	*philo_life(void *arg);
+
 // threads.c
 int		create_threads(t_phil **philos, t_params *params);
 int		wait_threads(t_phil **philos, t_params *params);
+
 // utils.c
 void	ft_usleep(long int time_in_ms);
 void	write_state(char *str, t_phil *phil);
