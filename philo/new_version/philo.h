@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ema_blnch <ema_blnch@student.42.fr>        +#+  +:+       +#+        */
+/*   By: eblancha <eblancha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 10:49:50 by eblancha          #+#    #+#             */
-/*   Updated: 2025/02/10 18:57:01 by ema_blnch        ###   ########.fr       */
+/*   Updated: 2025/02/11 14:09:19 by eblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/time.h>
 # include <limits.h>
 # include <string.h>
+# include <errno.h> 
 
 # include "struct.h"
 
@@ -50,6 +51,11 @@ void	take_fork(t_philo *philo);
 // Check death
 int		is_dead(t_philo *philo, int nb);
 void	*check_death(void *phi);
+
+// Handle mutex
+void	mutex_handle(t_mtx *mutex, t_opcode opcode);
+void	thread_handle(pthread_t *thread, void *(*foo)(void *),
+		void *data, t_opcode opcode);
 
 // Utils
 long	ft_atol(const char *string);
