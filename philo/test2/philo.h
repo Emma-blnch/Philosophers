@@ -1,5 +1,17 @@
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eblancha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/13 14:13:34 by eblancha          #+#    #+#             */
+/*   Updated: 2025/02/13 14:14:27 by eblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PHILO_H
+# define PHILO_H
 
 # include <stdio.h> // printf
 # include <unistd.h> // usleep
@@ -77,10 +89,9 @@ int		create_threads(t_phil **philos, t_params *params);
 int		wait_threads(t_phil **philos, t_params *params);
 
 // utils.c
+int		ft_atoi(const char *nptr);
 void	ft_usleep(long int time_in_ms);
 void	write_state(char *str, t_phil *phil);
 long	get_timestamp(void);
-int	ft_atoi(const char *nptr);
 
 #endif
-

@@ -1,4 +1,16 @@
-#include "philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   forks.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eblancha <eblancha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/13 14:15:34 by eblancha          #+#    #+#             */
+/*   Updated: 2025/02/13 14:19:35 by eblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../philo.h"
 
 void	take_fork(char fork_name, t_phil *phil)
 {
@@ -52,4 +64,3 @@ void	release_forks_and_sleep(t_phil *phil)
 	write_state(Y"is sleeping"RESET, phil);
 	ft_usleep(phil->params->time_to_sleep);
 }
-

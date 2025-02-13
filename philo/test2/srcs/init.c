@@ -1,4 +1,16 @@
-#include "philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eblancha <eblancha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/13 14:15:38 by eblancha          #+#    #+#             */
+/*   Updated: 2025/02/13 15:19:20 by eblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../philo.h"
 
 void	init_philo(t_phil *phil, t_fork **forks, t_params *params, int cur)
 {
@@ -42,12 +54,6 @@ int	create_philos(t_phil **philos, t_fork **forks, t_params	*params)
 
 int	init_params(t_params *params, int argc, char **argv)
 {
-	if (argc < 5 || argc > 6)
-	{
-		printf(R"Usage: ./philo <philo_nbr> <time_to_die> <time_to_eat> "
-			"<time_to_sleep> [number_of_times_each_philosopher_must_eat]"RESET);
-		return (0);
-	}
 	params->num = ft_atoi(argv[1]);
 	params->time_to_die = ft_atoi(argv[2]);
 	params->time_to_eat = ft_atoi(argv[3]);
@@ -60,11 +66,12 @@ int	init_params(t_params *params, int argc, char **argv)
 			return (0);
 	}
 	params->is_dead = 0;
-	if (params->num <= 0 || params->num > 200 || params->time_to_die < 60 || params->time_to_eat < 60
+	if (params->num <= 0 || params->num > 200
+		|| params->time_to_die < 60 || params->time_to_eat < 60
 		|| params->time_to_sleep < 60)
-		return (printf(R"Minimum 60 seconds for each time and 200 philosophers max"RESET), 0);
+		return (printf(R"Minimum 60 seconds for"
+				" each time and 200 philosophers max"RESET), 0);
 	pthread_mutex_init(&(params->console_mutex), NULL);
 	pthread_mutex_init(&(params->m_is_dead), NULL);
 	return (1);
 }
-
