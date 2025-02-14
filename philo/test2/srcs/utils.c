@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eblancha <eblancha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ema_blnch <ema_blnch@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:15:53 by eblancha          #+#    #+#             */
-/*   Updated: 2025/02/13 14:47:22 by eblancha         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:27:17 by ema_blnch        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,62 @@ long	get_timestamp(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
+void	error_exit(const char *error)
+{
+	printf(R"%s\n"RESET, error);
+	exit(EXIT_FAILURE);
+}
+
 int	ft_atoi(const char *nptr)
 {
-	int		sign;
 	int		num;
 	size_t	i;
 
 	i = 0;
-	sign = 1;
 	num = 0;
+	if (nptr[0] == '\0' || !nptr)
+    	error_exit("Empty argument is not allowed");
 	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
-	{
 		i++;
-	}
-	if ((nptr[i] == '-' || nptr[i] == '+'))
-	{
-		if ((nptr[i + 1] == '-' || nptr[i + 1] == '+'))
-			return (0);
-		if (nptr[i] == '-')
-			sign *= -1;
+	if (nptr[i] == '+')
 		i++;
-	}
+	else if (nptr[i] == '-')
+		error_exit("Only positive values allowed");
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		num = num * 10 + (nptr[i] - '0');
 		i++;
 	}
-	return (num * sign);
+	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
+		i++;
+	if (nptr[i] != '\0')
+		error_exit("Invalid characters in input");
+	return (num);
 }
+
+// int	ft_atoi(const char *nptr)
+// {
+// 	int		sign;
+// 	int		num;
+// 	size_t	i;
+
+// 	i = 0;
+// 	sign = 1;
+// 	num = 0;
+// 	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
+// 		i++;
+// 	if ((nptr[i] == '-' || nptr[i] == '+'))
+// 	{
+// 		if ((nptr[i + 1] == '-' || nptr[i + 1] == '+'))
+// 			return (0);
+// 		if (nptr[i] == '-')
+// 			sign *= -1;
+// 		i++;
+// 	}
+// 	while (nptr[i] >= '0' && nptr[i] <= '9')
+// 	{
+// 		num = num * 10 + (nptr[i] - '0');
+// 		i++;
+// 	}
+// 	return (num * sign);
+// }
