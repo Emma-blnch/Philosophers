@@ -1,9 +1,3 @@
-Reste à :
-
-
-faire passer le test "./philo 4 310 200 100" ou un philo doit mourir
-revoir quand temps de mort tres court et reste elevee car cense mourir mais personne meurt
-
 <h1 align="center"> 💻 <strong>Philosophers</strong> </h1>
 
 ## 🏷️ **About the project**
