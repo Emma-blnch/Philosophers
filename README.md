@@ -19,24 +19,14 @@ With this project, I learned:
 - [x] Use of low-level timing functions (usleep, gettimeofday)
 
 ## 📁 **My files**
-<ins>Main.c</ins> : My main function which manages the overall orchestration of the simulation.
+<ins>Main.c</ins> : My main function which manages the overall orchestration of the simulation. And a function to free everything to avoid thread leaks.
 
-<ins>Data_init.c</ins> : Initialize the structures needed and prepare all the data to launch the simulation.
+<ins>Init.c</ins> : Initializes the structures needed and prepare all the data to launch the simulation.
 
-<ins>Dinner.c</ins> : Implements the main simulation flow by distributing tasks to threads.
+<ins>Threads.c</ins> : Implements the main simulation flow by distributing tasks to threads.
 
-<ins>Monitor.c</ins> : Monitors simulation status to ensure smooth operation.
+<ins>Death.c</ins> : Monitors simulation status to ensure smooth operation.
 
-<ins>Parsing.c</ins> : Prepares and validates parameters for correct simulation configuration.
-
-<ins>Safe_handle.c</ins> : Ensures the security of concurrent operations by encapsulating thread and mutex manipulation.
-
-<ins>Ft_atol.c</ins> : Converts a string in long.
-
-<ins>Get_and_set.c</ins> : Facilitates synchronized access to data shared between threads using setters and getters.
-
-<ins>Synchro_utils.c</ins> : Contains all the function I did to ensure smooth synchro and consistent output.
+<ins>Forks.c</ins> : Handles the mutexes on the forks to avoid data race.
 
 <ins>Utils.c</ins> : Centralizes utility functions.
-
-<ins>Free_resources.c</ins> : Prevents leaks after simulation has ended.
