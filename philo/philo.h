@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eblancha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: eblancha <eblancha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/27 10:49:50 by eblancha          #+#    #+#             */
-/*   Updated: 2025/01/27 10:52:02 by eblancha         ###   ########.fr       */
+/*   Created: 2025/02/13 14:13:34 by eblancha          #+#    #+#             */
+/*   Updated: 2025/02/17 09:17:30 by eblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # include <string.h> // memset
 # include <errno.h> 
 
-# include "struct.h"
-
 # define RESET   "\033[0m" /* reset to default */
 # define BLACK   "\033[1;30m" 
 # define R       "\033[1;31m" /* bold red */
@@ -35,46 +33,69 @@
 # define C       "\033[1;36m" /* bold cyan */
 # define W       "\033[1;37m" /* bold white */
 
-// Main function
-int		main(int argc, char **argv);
+typedef struct s_params
+{
+	int				num;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				meal_max;
+	long			start_time;
+	pthread_mutex_t	console_mutex;
+	int				is_dead;
+	pthread_mutex_t	m_is_dead;
+	pthread_t		death_thread;
+}	t_params;
 
-// Program init
-void	parse_input(t_table *table, char **argv);
-void	data_init(t_table *table);
-void	free_resources(t_table *table);
+typedef struct s_fork
+{
+	int				used;
+	pthread_mutex_t	lock;
+}	t_fork;
 
-// Dinner sim
-void	handle_one_philo(t_table *table);
-void	dinner_start(t_table *table);
-void	*dinner_simulation(void *data);
+typedef struct s_phil
+{
+	pthread_t		thread;
+	int				pos;
+	long			last_meal;
+	pthread_mutex_t	m_last_meal;
+	int				meal_count;
+	t_fork			*r_fork;
+	int				r_taken;
+	t_fork			*l_fork;
+	int				l_taken;
+	t_params		*params;
+}	t_phil;
 
-// Supervisor
-void	*supervisor_routine(void *arg);
+// death.c
+int		is_dead(t_phil *phil);
+int		stop_threads(t_phil *phil);
+int		check_philo_death(t_phil *phil, long cur_time);
+int		check_all_philos_eaten(t_phil **philos, t_params *params);
+void	*check_philos_death(void *arg);
+void	philo_is_dead(t_params *params);
 
-// Safe handles
-void	thread_handle(pthread_t *thread, void *(*foo)(void *),
-			void *data, t_opcode opcode);
-void	mutex_handle(t_mtx *mutex, t_opcode opcode);
+// forks.c
+void	take_fork(char fork_name, t_phil *phil);
+void	release_fork(char fork_name, t_phil *phil);
+void	release_forks_and_sleep(t_phil *phil);
 
-// Setters and getters
-void	set_bool(t_mtx *mutex, bool *dest, bool value);
-bool	get_bool(t_mtx *mutex, bool *value);
-void	set_long(t_mtx *mutex, long *dest, long value);
-long	get_long(t_mtx *mutex, long *value);
-bool	simulation_finished(t_table *table);
+// init.c
+int		create_philos(t_phil **philos, t_fork **forks, t_params	*params);
+int		init_params(t_params *params, int argc, char **argv);
 
-// Utils
-long	ft_atol(const char *string);
-void	error_exit(const char *error);
-void	*mallocation(size_t bytes);
-void	wait_all_threads(t_table *table);
-long	get_current_timestamp(void);
-long	get_time(t_time_code timecode);
-void	wait_for_threads_and_clean(t_table *table, pthread_t supervisor);
-void	precise_usleep(long usec, t_table *table);
-void	write_status(t_status status, t_philo *philo);
-void	increase_long(t_mtx *mutex, long *value);
-bool	all_threads_running(t_mtx *mutex, long *threads, long philo_nbr);
-void	*monitor_dinner(void *data);
+// main.c
+void	*philo_life(void *arg);
+
+// threads.c
+int		create_threads(t_phil **philos, t_params *params);
+int		wait_threads(t_phil **philos, t_params *params);
+
+// utils.c
+int		ft_atoi(const char *nptr);
+void	ft_usleep(long int time_in_ms);
+void	write_state(char *str, t_phil *phil);
+long	get_timestamp(void);
+void	thinking_state(t_phil *phil);
 
 #endif
