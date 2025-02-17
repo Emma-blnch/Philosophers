@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eblancha <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: eblancha <eblancha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:18:46 by eblancha          #+#    #+#              #
-#    Updated: 2025/02/13 14:22:05 by eblancha         ###   ########.fr        #
+#    Updated: 2025/02/17 09:17:39 by eblancha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,11 @@ NAME = philo
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread -g
 
 MAKEFLAGS += --no-print-directory
 
-SRCS = srcs/main.c srcs/init.c srcs/death.c srcs/forks.c srcs/threads.c srcs/utils.c
+SRCS = srcs/main.c srcs/init.c srcs/death.c srcs/forks.c srcs/threads.c srcs/utils.c srcs/check.c
 
 OBJS = $(SRCS:.c=.o)
 

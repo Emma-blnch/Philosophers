@@ -6,7 +6,7 @@
 /*   By: eblancha <eblancha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:15:29 by eblancha          #+#    #+#             */
-/*   Updated: 2025/02/13 15:29:10 by eblancha         ###   ########.fr       */
+/*   Updated: 2025/02/17 09:17:54 by eblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,29 +52,24 @@ int	check_philo_death(t_phil *phil, long cur_time)
 	return (dead);
 }
 
-// void	*check_philos_death(void *arg)
-// {
-// 	t_params	*params;
-// 	t_phil		**philos;
-// 	long		cur_time;
-// 	int			cur;
+int	check_all_philos_eaten(t_phil **philos, t_params *params)
+{
+	int	cur;
+	int	finished_eating;
 
-// 	philos = (t_phil **)arg;
-// 	params = philos[0]->params;
-// 	while (1)
-// 	{
-// 		cur = 0;
-// 		cur_time = get_timestamp() - params->start_time;
-// 		while (cur < params->num)
-// 		{
-// 			if (check_philo_death(&(*philos)[cur], cur_time))
-// 				return (NULL);
-// 			cur++;
-// 		}
-// 		ft_usleep(1);
-// 	}
-// 	return (NULL);
-// }
+	finished_eating = 1;
+	cur = 0;
+	while (cur < params->num)
+	{
+		pthread_mutex_lock(&((*philos)[cur].m_last_meal));
+		if (params->meal_max > 0
+			&& (*philos)[cur].meal_count < params->meal_max)
+			finished_eating = 0;
+		pthread_mutex_unlock(&((*philos)[cur].m_last_meal));
+		cur++;
+	}
+	return (finished_eating);
+}
 
 void	*check_philos_death(void *arg)
 {
@@ -82,35 +77,64 @@ void	*check_philos_death(void *arg)
 	t_phil		**philos;
 	long		cur_time;
 	int			cur;
-	int			finished_eating;
 
 	philos = (t_phil **)arg;
 	params = philos[0]->params;
 	while (1)
 	{
 		cur = 0;
-		finished_eating = 1;
 		cur_time = get_timestamp() - params->start_time;
 		while (cur < params->num)
 		{
 			if (check_philo_death(&(*philos)[cur], cur_time))
 				return (NULL);
-			pthread_mutex_lock(&((*philos)[cur].m_last_meal));
-			if (params->meal_max > 0 && (*philos)[cur].meal_count < params->meal_max)
-				finished_eating = 0;
-			pthread_mutex_unlock(&((*philos)[cur].m_last_meal));
-			
 			cur++;
 		}
-		if (params->meal_max > 0 && finished_eating)
+		if (params->meal_max > 0 && check_all_philos_eaten(philos, params))
 		{
-			pthread_mutex_lock(&(params->m_is_dead));
-			params->is_dead = 1;
-			pthread_mutex_unlock(&(params->m_is_dead));
+			philo_is_dead(params);
 			return (NULL);
 		}
-
-		ft_usleep(1);
+		ft_usleep(5);
 	}
 	return (NULL);
 }
+
+// void	*check_philos_death(void *arg)
+// {
+// 	t_params	*params;
+// 	t_phil		**philos;
+// 	long		cur_time;
+// 	int			cur;
+// 	int			finished_eating;
+
+// 	philos = (t_phil **)arg;
+// 	params = philos[0]->params;
+// 	while (1)
+// 	{
+// 		cur = 0;
+// 		finished_eating = 1;
+// 		cur_time = get_timestamp() - params->start_time;
+// 		while (cur < params->num)
+// 		{
+// 			if (check_philo_death(&(*philos)[cur], cur_time))
+// 				return (NULL);
+// 			//check_meal_max(philos);
+// 			pthread_mutex_lock(&((*philos)[cur].m_last_meal));
+// 			if (params->meal_max > 0
+// 				&& (*philos)[cur].meal_count < params->meal_max)
+// 				finished_eating = 0;
+// 			pthread_mutex_unlock(&((*philos)[cur].m_last_meal));
+// 			cur++;
+// 		}
+// 		if (params->meal_max > 0 && finished_eating)
+// 		{
+// 			pthread_mutex_lock(&(params->m_is_dead));
+// 			params->is_dead = 1;
+// 			pthread_mutex_unlock(&(params->m_is_dead));
+// 			return (NULL);
+// 		}
+// 		ft_usleep(1);
+// 	}
+// 	return (NULL);
+// }

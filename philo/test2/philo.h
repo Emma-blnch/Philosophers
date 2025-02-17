@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eblancha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: eblancha <eblancha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:13:34 by eblancha          #+#    #+#             */
-/*   Updated: 2025/02/13 14:14:27 by eblancha         ###   ########.fr       */
+/*   Updated: 2025/02/17 09:17:30 by eblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,11 @@ typedef struct s_phil
 
 // death.c
 int		is_dead(t_phil *phil);
-void	*check_philos_death(void *arg);
 int		stop_threads(t_phil *phil);
+int		check_philo_death(t_phil *phil, long cur_time);
+int		check_all_philos_eaten(t_phil **philos, t_params *params);
+void	*check_philos_death(void *arg);
+void	philo_is_dead(t_params *params);
 
 // forks.c
 void	take_fork(char fork_name, t_phil *phil);
@@ -93,5 +96,6 @@ int		ft_atoi(const char *nptr);
 void	ft_usleep(long int time_in_ms);
 void	write_state(char *str, t_phil *phil);
 long	get_timestamp(void);
+void	thinking_state(t_phil *phil);
 
 #endif
